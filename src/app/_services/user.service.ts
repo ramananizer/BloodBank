@@ -29,7 +29,16 @@ export class UserService {
 
     createRequirement(requirement : Requirement) : Observable<any>
     {
-        return null;
+        var bearerHeader ='bearerHeader'.concat(' ').concat(localStorage.getItem('currentUser'));
+        const headers = new HttpHeaders({'authorization': bearerHeader});
+        return this.http.post('/api/requirement',requirement,{headers : headers});
+    }
+
+    fetchMyrequirements(isPublic : boolean)
+    {
+        var bearerHeader ='bearerHeader'.concat(' ').concat(localStorage.getItem('currentUser'));
+        const headers = new HttpHeaders({'authorization': bearerHeader});
+        return this.http.get('/api/myRequirements/'+isPublic,{headers : headers});
     }
 
     update(user: User) {

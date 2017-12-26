@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+ #my-div {
+        position: fixed;
+        width: 40%; /* Set your desired with */
+        z-index: 2; /* Make sure its above other items. */
+        top: 30%;
+        left: 50%;
+        margin-top: -10%; /* Changes with height. */
+        margin-left: -10%; /* Your width divided by 2. */
+
+        /* You will not need the below, its only for styling   purposes. */
+        padding: 10px;
+        border: 2px solid #555555;
+        background-color: #ccc;
+        border-radius: 5px;
+        text-align: center;
+    }

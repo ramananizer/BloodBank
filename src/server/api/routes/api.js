@@ -49,19 +49,17 @@ router.get('/users', (req, res) => {
 router.post('/users',verifyToken, (req,res) =>{
 console.log('craete users api');
    connection((db) => {
-       console.log(req.body);
-       console.log(req.token);
-       jwt.verify(req.token, 'hhh', (err, authData) =>
-       {
+    //    jwt.verify(req.token, 'hhh', (err, authData) =>
+    //    {
            
-            if(err)
-            {
-                console.log(err);
-                console.log('in error after verify');
-                res.sendStatus(403);
-            }
-            else
-            {
+    //         if(err)
+    //         {
+    //             console.log(err);
+    //             console.log('in error after verify');
+    //             res.sendStatus(403);
+    //         }
+    //         else
+    //         {
                 console.log('not in error after verify');
                 var usersCollection = db.collection('users');
                 usersCollection.insert(
@@ -79,10 +77,90 @@ console.log('craete users api');
                         } 
                     });
             }
+       );
+});
+
+router.post('/requirement',verifyToken, (req,res) =>{
+   connection((db) => {
+       jwt.verify(req.token, 'hhh', (err, authData) =>
+       {
+            if(err)
+            {
+                console.log(err);
+                console.log('in error after verify');
+                res.sendStatus(403);
+            }
+            else
+            {
+                var requirementsCollection = db.collection('requirements');
+                requirementsCollection.insert(
+                    { 
+                        userId : authData.user._id,
+                        name:req.body.name,
+                        bloodGroup : req.body.bloodGroup,
+                        address : req.body.address,
+                        description : req.body.description
+                    },
+                    function(err, result){
+                            if(!err){
+                            console.log("User Created");
+                            res.json(result);
+                        } 
+                    });
+            }
        });
        
 });
 });
+
+//myRequirements
+router.get('/myRequirements/:isPublic',verifyToken, (req, res) => {
+   connection((db) => {
+       var x =  jwt.verify(req.token, 'hhh');
+       if(x.user == undefined)
+            {
+                console.log(err);
+                console.log('in error after verify');
+                res.sendStatus(403);
+            }
+            else
+            {
+                var isPublic = req.params.isPublic;
+                 var requirementsCollection = db.collection('requirements');
+                 if(isPublic == "true")
+                 {
+                    requirementsCollection.find({"userId" : {$ne : x.user._id+''}}).toArray((err,result) =>
+                                        {
+                                            if(err)
+                                            {
+                                                res.sendError('error');
+                                            }
+                                            else
+                                            {
+                                                res.json(result);
+                                            }
+                                        })
+                 }
+                 else
+                 {
+                    requirementsCollection.find({"userId" : x.user._id+''}).toArray((err,result) =>
+                    {
+                        if(err)
+                        {
+                            res.sendError('error');
+                        }
+                        else
+                        {
+                            res.json(result);
+                        }
+                    })
+                }
+            }
+       });
+       
+});
+
+
 
 router.post('/authenticate',(req,res) =>{
    connection((db) => {

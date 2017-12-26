@@ -14,6 +14,7 @@ const appRoutes: Routes = [
     { path: 'register', component: RegisterComponent, pathMatch :"full" },
     //{ path: 'myRequirements', component: MyrequirementsComponent, pathMatch :"full" },//,
      { path: 'myRequirements', redirectTo: '/myRequirements' }//,
+    // { path: 'myRequirements/:isPublic', redirectTo: '/myRequirements' }
     // { path: 'myRequirements/postRequirement', component: RequirementComponent, outlet:'popup' }
      //{ path: 'myRequirements/postRequirement', component: RequirementComponent, outlet:'popup' },
    // { path: 'myRequirements/requirement', component: RequirementComponent, outlet :'popup' },

@@ -25,6 +25,7 @@ export class RequirementComponent implements OnInit {
             .subscribe(
                 data => {
                     this.alertService.success('Registration successful', true);
+                    this.closePopup();
                     //this.router.navigate(['/login']);
                 },
                 error => {

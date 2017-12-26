@@ -21,4 +21,9 @@ export class AppComponent {
     localStorage.setItem('currentUser', null);
     this._router.navigate(['/login']);
   }
+
+  goToPublicRequirements()
+  {
+    this._router.navigate(['/myRequirements', 1]);
+  }
 }

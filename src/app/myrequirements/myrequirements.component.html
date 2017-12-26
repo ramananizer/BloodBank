@@ -4,7 +4,8 @@
     <div class="col-md-1"></div>
     <div class="col-md-9">
       <div class="col-md-8">
-        My requirements
+        <span *ngIf="!isPublic">My requirements </span>
+        <span *ngIf="isPublic">Public requirements </span>
       </div>
       <div class="col-md-1">
         <a class="glyphicon glyphicon-plus"  (click)="postRequirement()" >></a>
@@ -15,7 +16,32 @@
       <!--(click)="postRequirement()"-->
     </div>
   </div>
-  <div class="row">
-    <!--<router-outlet name="popup1"></router-outlet>-->
+  
+   
+    <!--<li *ngFor="let requirement of myRequirements">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Blood Group {{requirement.bloodGroup}}</div>
+          <div class="panel-body">
+            Required for {{requirement.name}} at {{requirement.address}}
+           </div>
+        </div>
+    </li>-->
+
+  <div class="panel-group" id="accordion">
+    <div class="panel panel-default" *ngFor="let requirement of myRequirements">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <span>Required : {{requirement.bloodGroup}}</span>
+        </h4>
+      </div>
+      <div  class="panel-collapse collapse in">
+        <div class="panel-body">{{requirement.description}}</div>
+      </div>
+    </div>
   </div>
-</div>
+
+
+ 
+  </div>
+  
+
