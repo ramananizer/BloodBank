@@ -15,3 +15,8 @@ export class Requirement
     address : string;
     description : string;
 }
+
+export class ResponseModel
+{
+    description : string;
+}

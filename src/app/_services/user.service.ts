@@ -2,7 +2,7 @@
 //import { HttpClient} from '@angular/common/http';
 import {Http, Response, Headers, RequestOptions} from "@angular/http";
 import {Observable} from "rxjs/Rx";
-import { User, Requirement } from '../_models/user';
+import { User, Requirement, ResponseModel } from '../_models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
@@ -39,6 +39,11 @@ export class UserService {
         var bearerHeader ='bearerHeader'.concat(' ').concat(localStorage.getItem('currentUser'));
         const headers = new HttpHeaders({'authorization': bearerHeader});
         return this.http.get('/api/myRequirements/'+isPublic,{headers : headers});
+    }
+
+    postResponse(responseModel : ResponseModel, requirement : Requirement)
+    {
+
     }
 
     update(user: User) {

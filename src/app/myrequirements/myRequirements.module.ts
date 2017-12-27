@@ -8,6 +8,7 @@ import { MyrequirementsComponent }  from './myrequirements.component';
 //import { HeroService } from './hero.service';
 
 import { MyrequirementsRoutingModule } from './myrequirements.routing.module';
+import{Collapse} from '../directives/collapse';
 
 @NgModule({
   imports: [
@@ -17,8 +18,10 @@ import { MyrequirementsRoutingModule } from './myrequirements.routing.module';
   ],
   declarations: [
     RequirementComponent,
-    MyrequirementsComponent
+    MyrequirementsComponent,
+    Collapse
   ]//,
-  //providers: [ HeroService ]
+  //providers: [ HeroService ],
+  
 })
 export class MyRequirementsModule {}
