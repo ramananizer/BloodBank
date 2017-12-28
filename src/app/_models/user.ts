@@ -14,9 +14,11 @@ export class Requirement
     name : string;
     address : string;
     description : string;
+    _id : any;
 }
 
 export class ResponseModel
 {
     description : string;
+    requirementId : any;
 }

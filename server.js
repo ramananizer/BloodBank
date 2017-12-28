@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 
 // API file for interacting with MongoDB
 const api = require('./src/server/api/routes/api');
-
+//const updateRoutes = require('./src/server/api/routes/updateRequirements');
 // Parsers
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -18,6 +18,10 @@ app.use(express.static(path.join(__dirname, 'dist')));
 console.log('here now');
 // API location
 app.use('/api', api);
+
+//for updates 
+//updateRoutes(app);
+
 console.log('here now -- 1');
 // Send all other requests to the Angular app
 app.get('*', (req, res) => {

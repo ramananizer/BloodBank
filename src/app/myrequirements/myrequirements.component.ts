@@ -42,9 +42,14 @@ getId(i)
   }
  
   responseItem : any;
-  responseModel : any;
+  responseModel : any ={};
   respond(i)
   {
+    if(this.myRequirements[i].responses != undefined)
+    {
+      this.responseModel = this.myRequirements[i].responses[0];
+    }
+
     if(this.responseItem == i)
     {
       this.responseItem = -1;
@@ -55,8 +60,14 @@ getId(i)
     }
   }
 
+  loading : boolean
   postResponse()
   {
-    this.userService.postResponse(this.responseModel,this.myRequirements[this.current]);
+    this.loading = true;
+    this.responseModel.requirementId = this.myRequirements[this.current]._id;
+    this.userService.postResponse(this.responseModel).subscribe(x =>
+    {
+      this.loading = false;
+    })
   }
 }

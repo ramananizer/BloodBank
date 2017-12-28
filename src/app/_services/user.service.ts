@@ -41,9 +41,15 @@ export class UserService {
         return this.http.get('/api/myRequirements/'+isPublic,{headers : headers});
     }
 
-    postResponse(responseModel : ResponseModel, requirement : Requirement)
+    postResponse(responseModel : ResponseModel)
     {
+       return this.http.post('/api/response',responseModel,{headers : this.getHeader()});
+    }
 
+    getHeader() : HttpHeaders
+    {
+        var bearerHeader ='bearerHeader'.concat(' ').concat(localStorage.getItem('currentUser'));
+        return new HttpHeaders({'authorization': bearerHeader});
     }
 
     update(user: User) {

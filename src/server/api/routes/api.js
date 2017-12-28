@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 var Db = require('mongodb').Db;
 var jwt = require('jsonwebtoken');
-
+var updateRoutes = require('./updateRequirements');
 // Connect
 const connection = (closure) => {
     return MongoClient.connect('mongodb://localhost:27017/mean', (err, db) => {
@@ -161,7 +161,6 @@ router.get('/myRequirements/:isPublic',verifyToken, (req, res) => {
 });
 
 
-
 router.post('/authenticate',(req,res) =>{
    connection((db) => {
        console.log(req.body);
@@ -176,7 +175,7 @@ router.post('/authenticate',(req,res) =>{
                             //res.json(result.userName);
                             console.log('signing in jwt');
                             console.log(result);
-                            jwt.sign({user : result}, 'hhh',{expiresIn :'3000s'}, (err, token)=>
+                            jwt.sign({user : result}, 'hhh',{expiresIn :'30000s'}, (err, token)=>
                             {
                                     res.json(token);
                             });
@@ -184,6 +183,8 @@ router.post('/authenticate',(req,res) =>{
                     });
 });
 });
+
+updateRoutes(router);
 
 function verifyToken(req, res, next)
 {
