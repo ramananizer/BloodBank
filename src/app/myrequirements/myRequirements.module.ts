@@ -9,6 +9,7 @@ import { MyrequirementsComponent }  from './myrequirements.component';
 
 import { MyrequirementsRoutingModule } from './myrequirements.routing.module';
 import{Collapse} from '../directives/collapse';
+import {ResponseListComponent} from '../response-list/response-list.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import{Collapse} from '../directives/collapse';
   declarations: [
     RequirementComponent,
     MyrequirementsComponent,
-    Collapse
+    Collapse,
+    ResponseListComponent
   ]//,
   //providers: [ HeroService ],
   

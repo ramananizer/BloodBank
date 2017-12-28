@@ -10,22 +10,9 @@
       <div class="col-md-1">
         <a class="glyphicon glyphicon-plus"  (click)="postRequirement()" >></a>
       </div>
-      <!--[routerLink]="[{ outlets: { popup: ['/postRequirement'] } }]"-->
-      <!--routerLink="/postRequirement"-->
-      <!--[routerLink]="[{ outlets: { popup: ['postRequirement'] } }]"-->
-      <!--(click)="postRequirement()"-->
     </div>
   </div>
   
-   
-    <!--<li *ngFor="let requirement of myRequirements">
-        <div class="panel panel-primary">
-          <div class="panel-heading">Blood Group {{requirement.bloodGroup}}</div>
-          <div class="panel-body">
-            Required for {{requirement.name}} at {{requirement.address}}
-           </div>
-        </div>
-    </li>-->
 
   <div class="panel-group" id="accordion">
     <div class="panel panel-default" *ngFor="let requirement of myRequirements;let i = index">
@@ -37,20 +24,36 @@
                 [class.glyphicon-chevron-down] = "i == current" ></i> 
               Required : {{requirement.bloodGroup}}
           </span>
-          <div class = "pull-right">
-          <a (click)="respond(i)">
-            <span *ngIf="requirement.responses == undefined">
-            Respond
-            </span>
-            <span *ngIf="requirement.responses != undefined">
-              My responses
-            </span>
-          </a>
-          </div>
         </h4>
       </div>
       
-      <div *ngIf='responseItem == i && current == i' style="box-shadow: 5px 10px #888888">
+   
+      <div [class.collapse]='current != i'>
+        <div class="panel-body">{{requirement.description}}
+
+        <div *ngIf="isPublic" class = "pull-right">
+                  <a (click)="respond(i)">
+                    <span *ngIf="requirement.responses == undefined">
+                    Respond
+                    </span>
+                    <span *ngIf="requirement.responses != undefined">
+                      My responses
+                    </span>
+                  </a>
+         </div>
+
+         <div *ngIf="!isPublic && requirement.responses != undefined" class = "pull-right">
+                  <a (click)="respond(i)">
+                      <span class="badge">{{requirement.responses.length}}</span>
+                  </a>
+         </div>
+
+        </div>
+
+       <response-list *ngIf='responseItem == i && current == i && !isPublic'
+       [responseList]="requirement.responses"></response-list>
+
+        <div *ngIf='responseItem == i && current == i && isPublic'>
          <div class="panel panel-default" style="margin: 10px">
             <div class="panel-heading">
               <h4 class="panel-title">
@@ -73,8 +76,6 @@
         </div>
       </div>
       </div>
-      <div [class.collapse]='current != i'>
-        <div class="panel-body">{{requirement.description}}</div>
       </div>
     </div>
   </div>

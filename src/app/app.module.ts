@@ -15,15 +15,14 @@ import { AddDonorComponent } from './add-donor/add-donor.component';
 import { RequirementComponent } from './requirement/requirement.component';
 import { MyrequirementsComponent } from './myrequirements/myrequirements.component';
 import {MyRequirementsModule} from './myrequirements/myRequirements.module';
+import { ResponseListComponent } from './response-list/response-list.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    AddDonorComponent,
-    //RequirementComponent,
-    //MyrequirementsComponent
+    AddDonorComponent
   ],
   imports: [
     BrowserModule,
