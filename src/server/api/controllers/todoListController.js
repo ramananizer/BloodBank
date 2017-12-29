@@ -82,6 +82,7 @@ exports.updateRequirement = function(req, res)
                             result.responses = [];
                         }
                         result.responses.push({
+                            "userId" : authData.user._id,
                             "description" : req.body.description
                         })
 

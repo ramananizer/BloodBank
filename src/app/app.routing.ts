@@ -9,7 +9,7 @@ import {AddDonorComponent} from './add-donor/add-donor.component';
 import{MyrequirementsComponent} from './myrequirements/myrequirements.component';
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: '', component: MyrequirementsComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent, pathMatch:"full" },
     { path: 'register', component: RegisterComponent, pathMatch :"full" },
     //{ path: 'myRequirements', component: MyrequirementsComponent, pathMatch :"full" },//,

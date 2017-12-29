@@ -99,7 +99,8 @@ router.post('/requirement',verifyToken, (req,res) =>{
                         name:req.body.name,
                         bloodGroup : req.body.bloodGroup,
                         address : req.body.address,
-                        description : req.body.description
+                        description : req.body.description,
+                        date : new Date()
                     },
                     function(err, result){
                             if(!err){

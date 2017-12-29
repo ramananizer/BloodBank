@@ -22,7 +22,9 @@
               <i class='glyphicon' 
                 [class.glyphicon-chevron-right] = "i != current"
                 [class.glyphicon-chevron-down] = "i == current" ></i> 
-              Required : {{requirement.bloodGroup}}
+              Required :<em> {{requirement.bloodGroup}} </em>
+             <samp *ngIf="isPublic" style="margin-left: 15px"> By : {{requirement.name}}</samp>
+             <var class="pull-right"> {{requirement.date| date: 'dd/MM/yyyy'}} </var>
           </span>
         </h4>
       </div>
@@ -33,10 +35,10 @@
 
         <div *ngIf="isPublic" class = "pull-right">
                   <a (click)="respond(i)">
-                    <span *ngIf="requirement.responses == undefined">
+                    <span>
                     Respond
                     </span>
-                    <span *ngIf="requirement.responses != undefined">
+                    <span style="margin-left: 10px" *ngIf="requirement.responses != undefined">
                       My responses
                     </span>
                   </a>
@@ -63,10 +65,10 @@
             <div class="panel-body">
              <form name="form" (ngSubmit)="f.form.valid && postResponse()" #f="ngForm" novalidate>
                 <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !address.valid }">
-                <textarea class="form-control"  id="response"
-                          name="response"
-                          [(ngModel)]="responseModel.description"></textarea>
-              </div>
+                  <textarea class="form-control"  id="response"
+                            name="response" style="height: 40 px;"
+                            [(ngModel)]="responseModel.description"></textarea>
+                </div>
               <div class="form-group">
                 <button type="submit" [disabled]="loading" class="btn btn-primary pull-right" >Post</button>
                 <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
