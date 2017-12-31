@@ -4,7 +4,15 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 var Db = require('mongodb').Db;
 var jwt = require('jsonwebtoken');
+var mongoose = require('mongoose');
 var updateRoutes = require('./updateRequirements');
+var schemas = require('../models/todoListModel');
+
+var requirementSchema = schemas.requirementSchema;
+var responseSchema = schemas.responseSchema;
+
+var requirement = mongoose.model('requirement', requirementSchema);
+//var response = mongoose.model('response', responseSchema);
 // Connect
 const connection = (closure) => {
     return MongoClient.connect('mongodb://localhost:27017/mean', (err, db) => {
@@ -13,6 +21,13 @@ const connection = (closure) => {
         closure(db.db('mean'));
     });
 };
+
+const connection_mongoose = (closure) => {
+mongoose.connect('mongodb://localhost:27017/mean');
+ closure(mongoose.connection.db);
+
+
+}
 
 // Error handling
 const sendError = (err, res) => {
@@ -93,19 +108,20 @@ router.post('/requirement',verifyToken, (req,res) =>{
             else
             {
                 var requirementsCollection = db.collection('requirements');
-                requirementsCollection.insert(
-                    { 
+                var obj = { 
                         userId : authData.user._id,
                         name:req.body.name,
                         bloodGroup : req.body.bloodGroup,
                         address : req.body.address,
                         description : req.body.description,
                         date : new Date()
-                    },
+                    };
+                requirementsCollection.insert(
+                    obj,
                     function(err, result){
                             if(!err){
                             console.log("User Created");
-                            res.json(result);
+                            res.json(obj);
                         } 
                     });
             }
@@ -116,7 +132,7 @@ router.post('/requirement',verifyToken, (req,res) =>{
 
 //myRequirements
 router.get('/myRequirements/:isPublic',verifyToken, (req, res) => {
-   connection((db) => {
+   connection_mongoose((db) => {
        var x =  jwt.verify(req.token, 'hhh');
        if(x.user == undefined)
             {
@@ -127,35 +143,31 @@ router.get('/myRequirements/:isPublic',verifyToken, (req, res) => {
             else
             {
                 var isPublic = req.params.isPublic;
-                 var requirementsCollection = db.collection('requirements');
+                 //var requirementsCollection = db.collection('requirements');
+                 var query = requirement.find();
+                 query.sort({date : -1});
+                 
                  if(isPublic == "true")
                  {
-                    requirementsCollection.find({"userId" : {$ne : x.user._id+''}}).toArray((err,result) =>
-                                        {
-                                            if(err)
-                                            {
-                                                res.sendError('error');
-                                            }
-                                            else
-                                            {
-                                                res.json(result);
-                                            }
-                                        })
+                     query.select('bloodGroup name address description date ');
+                     query.where('userId').ne(x.user._id+'');
                  }
                  else
                  {
-                    requirementsCollection.find({"userId" : x.user._id+''}).toArray((err,result) =>
-                    {
-                        if(err)
-                        {
-                            res.sendError('error');
-                        }
-                        else
-                        {
-                            res.json(result);
-                        }
-                    })
+                     query.select('bloodGroup name address description date responses');
+                     query.where('userId').equals(x.user._id+'');
+                 }
+                 query.exec(function(err, result){
+                if(err)
+                {
+                    res.sendError('error');
                 }
+                else
+                {
+                    res.json(result);
+                    mongoose.disconnect();
+                }
+            });
             }
        });
        

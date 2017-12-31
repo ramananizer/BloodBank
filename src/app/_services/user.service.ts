@@ -46,6 +46,13 @@ export class UserService {
        return this.http.post('/api/response',responseModel,{headers : this.getHeader()});
     }
 
+    fetchMyResponses(requirementId : string)
+    {
+        var responseModel = new ResponseModel();
+        responseModel.requirementId = requirementId;
+        return this.http.post('/api/fetchResponse',responseModel,{headers : this.getHeader()});
+    }
+
     getHeader() : HttpHeaders
     {
         var bearerHeader ='bearerHeader'.concat(' ').concat(localStorage.getItem('currentUser'));

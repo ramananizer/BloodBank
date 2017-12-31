@@ -38,22 +38,21 @@
                     <span>
                     Respond
                     </span>
-                    <span style="margin-left: 10px" *ngIf="requirement.responses != undefined">
+                    <!--<span style="margin-left: 10px" *ngIf="requirement.responses != undefined">
                       My responses
-                    </span>
+                    </span>-->
                   </a>
          </div>
 
          <div *ngIf="!isPublic && requirement.responses != undefined" class = "pull-right">
-                  <a (click)="respond(i)">
+                  <a (click)="showResponses(i)">
                       <span class="badge">{{requirement.responses.length}}</span>
                   </a>
          </div>
 
         </div>
 
-       <response-list *ngIf='responseItem == i && current == i && !isPublic'
-       [responseList]="requirement.responses"></response-list>
+      
 
         <div *ngIf='responseItem == i && current == i && isPublic'>
          <div class="panel panel-default" style="margin: 10px">
@@ -64,8 +63,9 @@
             </div>
             <div class="panel-body">
              <form name="form" (ngSubmit)="f.form.valid && postResponse()" #f="ngForm" novalidate>
-                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !address.valid }">
+                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !response.valid }">
                   <textarea class="form-control"  id="response"
+                            #response="ngModel" required
                             name="response" style="height: 40 px;"
                             [(ngModel)]="responseModel.description"></textarea>
                 </div>
@@ -78,6 +78,19 @@
         </div>
       </div>
       </div>
+
+       <div *ngIf="requirement.responses!= undefined && requirement.responses.length > 0">
+         <span style="margin-left: 10px" *ngIf="!isFetching && isPublic">
+            <em>My responses</em>
+          </span>
+          <span style="margin-left: 10px" *ngIf="isFetching && isPublic" >
+            fetching responses.....
+          </span>
+          <response-list *ngIf='responseItem == i && current == i'
+          [responseList]="requirement.responses"></response-list>
+
+       </div>
+
       </div>
     </div>
   </div>

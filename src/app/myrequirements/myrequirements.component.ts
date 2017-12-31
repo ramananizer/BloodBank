@@ -12,20 +12,34 @@ export class MyrequirementsComponent implements OnInit {
 
   myRequirements : any;
   constructor(private router : Router,private userService : UserService,
-  private route: ActivatedRoute ) { }
+  private route: ActivatedRoute, private alertService : AlertService ) { }
   isPublic : boolean;
   current: number = 0;
   ngOnInit() {
   
    this.route.params.subscribe(params =>{
-      this.isPublic = params['isPublic'] != undefined;
-       this.userService.fetchMyrequirements(this.isPublic).subscribe(x =>
+   this.isPublic = params['isPublic'] != undefined;
+   this.userService.fetchMyrequirements(this.isPublic).subscribe(x =>
       {
         this.myRequirements = x;
       }
-    )
-    }); 
-  }
+    )   
+  });
+
+  this.alertService.getMessage().subscribe( x =>
+  {
+    //  this.userService.fetchMyrequirements(this.isPublic).subscribe(x =>
+    //   {
+    //     this.myRequirements = x;
+    //   }
+    // )
+  });
+}
+
+fetchData()
+{
+ 
+}
 
 getDataTarget(i)
 {
@@ -45,11 +59,30 @@ getId(i)
   responseModel : any ={};
   respond(i)
   {
-    if(this.myRequirements[i].responses != undefined)
-    {
-      this.responseModel = this.myRequirements[i].responses[0];
-    }
+    this.isFetching = false;
+    // if(this.myRequirements[i].responses != undefined)
+    // {
+    //   this.responseModel = this.myRequirements[i].responses[0];
+    // }
 
+    if(this.responseItem == i)
+    {
+      this.responseItem = -1;
+    }
+    else
+    {
+      this.responseItem = i;
+      this.isFetching = true;
+      this.userService.fetchMyResponses(this.myRequirements[this.current]._id).subscribe(x =>
+      {
+        this.myRequirements[this.current].responses = x;
+        this.isFetching = false;
+      });
+    }
+  }
+
+  showResponses(i)
+  {
     if(this.responseItem == i)
     {
       this.responseItem = -1;
@@ -60,7 +93,9 @@ getId(i)
     }
   }
 
-  loading : boolean
+  loading : boolean;
+  isFetching : boolean;
+
   postResponse()
   {
     this.loading = true;
@@ -68,6 +103,7 @@ getId(i)
     this.userService.postResponse(this.responseModel).subscribe(x =>
     {
       this.loading = false;
+      this.myRequirements[this.current].responses = x;
     })
   }
 }
